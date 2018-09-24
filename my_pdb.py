@@ -1120,7 +1120,7 @@ class Pdb(bdb.Bdb, cmd.Cmd):
         """EOF
         Handles the receipt of EOF as a command.
         """
-        self.message('')
+        self.message('quit')
         self._user_requested_quit = True
         self.set_quit()
         return 1
@@ -1512,7 +1512,23 @@ class Pdb(bdb.Bdb, cmd.Cmd):
                 msg += '\n'
         self.message(msg)
         
-        #self.message("ls invoked")
+    def do_calc(self, args):
+        """
+            Calculation.
+        """
+        if len(args) == 0:
+            return 
+
+        try:
+            msg = eval(args)
+        except SyntaxError as e:
+            msg = e
+        except NameError as e:
+            msg = e
+        except:
+            msg = "Other Error Occurred"
+
+        self.message(msg)
 
     # other helper functions
 
@@ -1575,7 +1591,7 @@ if __doc__ is not None:
         'enable', 'ignore', 'condition', 'commands', 'step', 'next', 'until',
         'jump', 'return', 'retval', 'run', 'continue', 'list', 'longlist',
         'args', 'p', 'pp', 'whatis', 'source', 'display', 'undisplay',
-        'interact', 'alias', 'unalias', 'debug', 'quit', 'ls',
+        'interact', 'alias', 'unalias', 'debug', 'quit', 'ls', 'calc'
     ]
 
     for _command in _help_order:
@@ -1713,7 +1729,6 @@ def main():
             print("Post mortem debugger finished. The " + mainpyfile +
                   " will be restarted")
 
-    print("[*] Main Over")
 
 # When invoked as main program, invoke the debugger on a script
 if __name__ == '__main__':
