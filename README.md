@@ -1,2 +1,6 @@
 # python_debugger  
-Extended pdb
+Extended pdb  
+
+## Example  
+
+> $ python -m pdb ./foo.py
